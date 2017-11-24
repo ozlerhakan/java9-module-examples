@@ -1,6 +1,6 @@
 = Java 9 Module Examples
 
-What I have learned from the Resources list is that Module System in Java 9 is an optional decision. Your project could rely on the classpath as before whereas the module system brings several benefits to your applications such as modular thinking, encapsulation, dependency management and services. To this end, in this repository you'll find several practical Java 9 module examples that could give you some brief ideas. Feel free to open an issue, if you find any typo or mistake that I made.  
+What I have learned from the Resources list is that Module System in Java 9 is an optional decision. Your project could rely on the classpath as before whereas the module system brings several benefits to your applications such as modular thinking, encapsulation, dependency management and services. To this end, in this repository you'll find several practical Java 9 module examples that could give you some brief ideas. Feel free to open up https://github.com/ozlerhakan/java9-module-examples/issues/new[an issue], if you find any typo or mistake that I made.  
 
 === Modi
 
