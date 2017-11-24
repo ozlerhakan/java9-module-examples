@@ -1,0 +1,5 @@
+digraph "summary" {
+  "employee.service"                                 -> "employee.model" [label="requires"];
+  "employee.entrypoint"                              -> "employee.service" [label="requires"];
+  "employee.entrypoint"                                 -> "employee.model" [color=blue,label="requires transitive"];
+}

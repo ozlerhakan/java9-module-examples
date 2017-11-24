@@ -1,0 +1,9 @@
+digraph "employee.entrypoint" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/requires-transitive/jar/employee.entrypoint-1.0.jar
+   "employee.entrypoint"                              -> "employee.service.api (employee.service)";
+   "employee.entrypoint"                              -> "java.io (java.base)";
+   "employee.entrypoint"                              -> "java.lang (java.base)";
+   "employee.entrypoint"                              -> "java.lang.invoke (java.base)";
+   "employee.entrypoint"                              -> "java.util (java.base)";
+   "employee.entrypoint"                              -> "java.util.function (java.base)";
+}

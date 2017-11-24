@@ -1,0 +1,21 @@
+digraph "summary" {
+  size ="10,10";
+  "modi.entrypoint"                                  -> "modi.api\nexports com.modi.api.query" [label=requires,color=blue];
+  "modi.entrypoint"                                  -> "modi.provider\nexports com.modi.provider.query" [label=requires,color=blue];
+
+  "modi.mod\nexports com.mod.impl"                   -> "modi.api\nexports com.modi.api.query" [label=requires,color=blue];
+  "modi.mod\nexports com.mod.impl"                   -> "modi.provider\nexports com.modi.provider.query" [style=dotted];
+
+  "modi.provider\nexports com.modi.provider.query"   -> "modi.entrypoint" [style=dotted];
+  "modi.provider\nexports com.modi.provider.query"   -> "modi.api\nexports com.modi.api.query" [label=requires,color=blue];
+  "modi.provider\nexports com.modi.provider.query"   -> "modi.mod\nexports com.mod.impl" [label=requires,color=blue];
+  "modi.provider\nexports com.modi.provider.query"   -> "modi.pack\nexports com.pack.impl" [label=requires,color=blue];
+
+  "modi.pack\nexports com.pack.impl"                 -> "modi.api\nexports com.modi.api.query" [label=requires,color=blue];
+  "modi.pack\nexports com.pack.impl"                 -> "modi.provider\nexports com.modi.provider.query" [style=dotted];
+
+  "modi.api\nexports com.modi.api.query"             -> "modi.provider\nexports com.modi.provider.query" [style=dotted];
+  "modi.api\nexports com.modi.api.query"             -> "modi.entrypoint" [style=dotted];
+  "modi.api\nexports com.modi.api.query"             -> "modi.mod\nexports com.mod.impl" [style=dotted];
+  "modi.api\nexports com.modi.api.query"             -> "modi.pack\nexports com.pack.impl" [style=dotted];
+}

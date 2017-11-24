@@ -1,0 +1,5 @@
+digraph "summary" {
+  "employee.service"                                 -> "employee.model";
+  "employee.service"                                 -> "java.base (java.base)";
+  "employee.model"                                   -> "java.base (java.base)";
+}

@@ -1,0 +1,11 @@
+digraph "com.example.modi" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/modim/out/production/modi
+   "com.example.modi.entrypoint"                      -> "com.example.modi.query (com.example.modi)";
+   "com.example.modi.entrypoint"                      -> "java.io (java.base)";
+   "com.example.modi.entrypoint"                      -> "java.lang (java.base)";
+   "com.example.modi.query"                           -> "java.lang (java.base)";
+   "com.example.modi.query"                           -> "java.lang.invoke (java.base)";
+   "com.example.modi.query"                           -> "java.util (java.base)";
+   "com.example.modi.query"                           -> "java.util.function (java.base)";
+   "com.example.modi.query"                           -> "java.util.stream (java.base)";
+}

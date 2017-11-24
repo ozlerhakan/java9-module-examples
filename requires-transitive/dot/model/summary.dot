@@ -1,0 +1,3 @@
+digraph "summary" {
+  "employee.model"                                   -> "java.base (java.base)";
+}

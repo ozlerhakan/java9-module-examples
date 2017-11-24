@@ -1,0 +1,3 @@
+src/com/example/modi/entrypoint/Main.java
+src/com/example/modi/query/Modi.java
+-d out/production/modi

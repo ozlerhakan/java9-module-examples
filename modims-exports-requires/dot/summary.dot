@@ -1,0 +1,14 @@
+digraph "summary" {
+  "modi.entrypoint"                                  -> "java.base (java.base)";
+  "modi.entrypoint"                                  -> "modi.api";
+  "modi.entrypoint"                                  -> "modi.provider";
+  "modi.mod"                                         -> "java.base (java.base)";
+  "modi.mod"                                         -> "modi.api";
+  "modi.api"                                         -> "java.base (java.base)";
+  "modi.provider"                                    -> "java.base (java.base)";
+  "modi.provider"                                    -> "modi.api";
+  "modi.provider"                                    -> "modi.mod";
+  "modi.provider"                                    -> "modi.pack";
+  "modi.pack"                                        -> "java.base (java.base)";
+  "modi.pack"                                        -> "modi.api";
+}

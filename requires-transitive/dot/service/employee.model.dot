@@ -1,0 +1,5 @@
+digraph "employee.model" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/requires-transitive/jar/employee.model-1.0.jar
+   "employee.model"                                   -> "java.lang (java.base)";
+   "employee.model"                                   -> "java.lang.invoke (java.base)";
+}

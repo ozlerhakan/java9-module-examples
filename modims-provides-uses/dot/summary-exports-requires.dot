@@ -1,0 +1,5 @@
+digraph "summary" {
+  "modi.entrypoint"  -> "modi.api\nexports com.modi.api.query;\nexports com.modi.api.query.annotation;" [color=blue,label="requires"];
+  "modi.pack" -> "modi.api\nexports com.modi.api.query;\nexports com.modi.api.query.annotation;" [color=blue,label="requires"];
+  "modi.mod" -> "modi.api\nexports com.modi.api.query;\nexports com.modi.api.query.annotation;" [color=blue,label="requires"];
+}

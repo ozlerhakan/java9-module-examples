@@ -1,0 +1,5 @@
+digraph "not" {
+  "modi.pack" -> "Service Loader" [color=blue,label="requires com.modi.api.query.Query with PackageQuery"];
+  "modi.mod" -> "Service Loader" [color=blue,label="\nprovides com.modi.api.query.Query with ModuleQuery"];
+  "modi.entrypoint" -> "Service Loader" [color=red, label="uses com.modi.api.query.Query;"]
+}

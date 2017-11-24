@@ -1,0 +1,4 @@
+digraph "modi.api" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/modims/out/modi.api
+   "com.modi.api.query"                               -> "java.lang (java.base)";
+}

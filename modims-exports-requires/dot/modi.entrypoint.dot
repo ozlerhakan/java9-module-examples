@@ -1,0 +1,10 @@
+digraph "modi.entrypoint" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/modims/out/modi.entrypoint
+   "com.modi.entrypoint"                              -> "com.modi.api.query (modi.api)";
+   "com.modi.entrypoint"                              -> "com.modi.provider.query (modi.provider)";
+   "com.modi.entrypoint"                              -> "java.io (java.base)";
+   "com.modi.entrypoint"                              -> "java.lang (java.base)";
+   "com.modi.entrypoint"                              -> "java.lang.invoke (java.base)";
+   "com.modi.entrypoint"                              -> "java.util (java.base)";
+   "com.modi.entrypoint"                              -> "java.util.function (java.base)";
+}

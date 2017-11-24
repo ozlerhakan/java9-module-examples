@@ -1,0 +1,6 @@
+digraph "modi.api" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/modims-provides-uses/out/modi.api
+   "com.modi.api.query"                               -> "java.lang (java.base)";
+   "com.modi.api.query.annotation"                    -> "java.lang (java.base)";
+   "com.modi.api.query.annotation"                    -> "java.lang.annotation (java.base)";
+}

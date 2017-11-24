@@ -1,0 +1,42 @@
+= Java 9 Module Examples
+
+What I have learned from the Resources list is that Module System in Java 9 is an optional decision. Your project could rely on the classpath as before whereas the module system brings several benefits to your applications such as modular thinking, encapsulation, dependency management and services. To this end, in this repository you'll find several practical Java 9 module examples that could give you some brief ideas. Feel free to open an issue, if you find any typo or mistake that I made.  
+
+=== Modi
+
+Shows how to compile and run an unnamed module.
+
+=== ModiM
+
+Demonstrates how to compile and run an application module.
+
+=== ModiMs-exports-requires
+
+Demonstrates how to compile and run multiple application modules using the `exports` and `requires` clauses.
+
+=== ModiMs-provides-uses
+
+Demonstrates how to compile and run multiple application modules using the `provides ... with` and `uses` clauses.
+
+=== ReT (Requires-Transitive)
+
+Shows the way of handling transitive dependencies on a module system.
+
+=== Todo
+
+* a spring project with mongodb integration
+* a reflection and deep reflection project
+
+=== Resources
+
+* https://blog.codefx.org/java/[Nicolai Parlog Blog]
+* https://dzone.com/articles/jdk9-howto-create-a-java-run-time-image-with-maven[JDK 9: Creating a Java Runtime Image With Maven]
+* https://github.com/java9-modularity[Java 9 Modularity Samples]
+* https://github.com/ConSol/java9-modules-maven-junit-example[Java 9 Modules Example with Maven and JUnit]
+* https://github.com/eh3rrera/getting-started-jpms[Java 9 module system tutorials]
+* https://github.com/cfdobber/maven-java9-jigsaw[Example project with Maven, Java 9 and Jigsaw]
+* http://openjdk.java.net/jeps/282[Jlink: The Java Linker]
+* http://openjdk.java.net/jeps/220[Modular Run-Time Images]
+* https://stackoverflow.com/questions/46502453/[Readability Recap]
+* https://www.voxxed.com/2016/11/problem-modules-reflective-access/[How do you solve a problem like Java 9 modules and reflective access?]
+* https://labs.consol.de/development/2017/02/13/getting-started-with-java9-modules.html[Getting Started with Java 9 Modules]

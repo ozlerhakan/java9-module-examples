@@ -1,0 +1,6 @@
+digraph "employee.service" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/requires-transitive/jar/employee.service-1.0.jar
+   "employee.service.api"                             -> "employee.model (employee.model)";
+   "employee.service.api"                             -> "java.lang (java.base)";
+   "employee.service.api"                             -> "java.util (java.base)";
+}

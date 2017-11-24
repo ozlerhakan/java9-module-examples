@@ -1,0 +1,3 @@
+digraph "summary" {
+  "com.example.modi"                                 -> "java.base (java.base)";
+}

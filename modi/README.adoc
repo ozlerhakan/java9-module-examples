@@ -1,0 +1,148 @@
+= Modi
+:experimental:
+:toc: macro
+:toc-title: Contents
+
+This is an example project that shows how to compile and run an unnamed module. In essence, we migrate the project without transforming the codebase to a module.
+
+.the final project tree view after completing the sections.
+----
+.
+├── README.adoc
+├── arguments.args
+├── jar             <1>
+│   └── modi.jar
+├── out             <2>
+│   └── production
+│       └── modi
+│           └── com
+│               └── example
+│                   └── modi
+│                       ├── entrypoint
+│                       │   └── Main.class
+│                       └── query
+│                           └── Modi.class
+└── src
+    └── com
+        └── example
+            └── modi
+                ├── entrypoint
+                │   └── Main.java
+                └── query
+                    └── Modi.java
+----
+1. If you follow the steps over the section 4, you should see the related JAR file on the `jar` directory.
+2. After compiling the project using the commands below, the `out` directory will be created along with the compiled sources.
+
+toc::[]
+
+=== #{counter:index} Compiling the project
+
+The Java compiler tool first compiles the `Main` and the `Modi` files and places their compiled classes into the `out/production/modi` directory.
+
+.arguments.args
+----
+src/com/example/modi/entrypoint/Main.java
+src/com/example/modi/query/Modi.java
+-d out/production/modi
+----
+
+----
+$ javac --version
+javac 9.0.1
+$ javac @arguments.args
+----
+
+=== #{counter:index} Running the project
+
+This is the regular exploded directory containing the application class files. The exploded directory can refer to the unnamed module. You can run the project using two approaches:
+
+----
+$ java --version
+java 9.0.1
+Java(TM) SE Runtime Environment (build 9.0.1+11)
+Java HotSpot(TM) 64-Bit Server VM (build 9.0.1+11, mixed mode)
+
+$ cd out/production/modi
+$ java com.example.modi.entrypoint.Main java.base
+:)
+
+$ #or
+
+$ java -cp out/production/modi com.example.modi.entrypoint.Main java.base <1>
+:)
+----
+1. `-cp` is the abbreviation for `--classpath` and `--class-path`.
+
+=== #{counter:index} Generating a JAR file from the exploded unnamed module
+
+We can generate a corresponding JAR file with the following command:
+
+----
+$ jar -c \   <1>
+  -f jar/modi.jar \ <2>
+  -e com.example.modi.entrypoint.Main \ <3>
+  -C  out/production/modi/ . <4>
+----
+1. A new archive file we want to create. Either `--create` or `-c` operation flags can be used.
+2. The new archive file name will be `modi.jar` the `--file` flag is the equivalent of the `-f` flag.
+3. We specify the entry point (main-class). we can do so the thing with the `--main-class com.example.modi.entrypoint.Main` flag as well.
+4. We now change the directory to `out/production/modi` and look at the all compiled class files in order to put them in a JAR file. You should see the `modi.jar` file in the `jar` directory after running the command. Note that, the `jar` directory must exists.
+
+The directory tree below shows the generated JAR structure. It's similar to the explode unnamed module.
+
+----
+modi.jar
+├── META-INF
+│   └── MANIFEST.MF
+└── com
+    └── example
+        └── modi
+            ├── entrypoint
+            │   └── Main.class
+            └── query
+                └── Modi.class
+----
+
+=== #{counter:index} The module descriptor
+
+We are able to inspect the module description of our JAR file. We can find the answers of how many platform modules are required, how many packages the JAR contains and what the main class is.
+
+----
+$ jar -d \ <1>
+  -f jar/modi.jar
+No module descriptor found. Derived automatic module. <2>
+
+modi automatic
+requires java.base mandated   <3>
+contains com.example.modi.entrypoint <4>
+contains com.example.modi.query
+main-class com.example.modi.entrypoint.Main <5>
+----
+1. `-d` is the sort-form of the `--describe-module` flag. This is the main operation flag so we cannot use both `-c` and `-d` at the same time.
+2. Since the project is not modularized yet as It doesn't contain a module description file, the name `modi` is automatically given to the module. The module system gives the module descriptor on the fly.  fileThe module name, `modi`, is derived from the name of the JAR.
+3. The modi module needs `java.base` to run without error.
+4. 2 packages in the modi project exist. In other words, the modi project consists of `com.example.modi.entrypoint` and  `com.example.modi.query` packages.
+5. The main class, `com.example.modi.entrypoint.Main`, runs when we use the module.
+
+=== #{counter:index} Running the nonmodular JAR
+
+You can run the regular (nonmodular and unamed) JAR file in three ways:
+
+----
+$ java -cp jar/modi.jar com.example.modi.entrypoint.Main java.base <1>
+:)
+# or
+$ java -jar jar/modi.jar java.base <2>
+:)
+----
+1. We run the application on the classpath.
+2. This is the conventional way of running a regular JAR file.
+
+Keep in mind that, we cannot run a modular JAR with the same ways like above. Let's try another approach now. This time, we move the JAR file from the classpath to the module path even the modi JAR is not a module however in fact, the JAR is going to be an automatic module.
+
+----
+$ java -p jar/modi.jar -m modi java.base <1>
+:)
+----
+1. We use `-p` or `--module-path` to add our unnamed module , `modi.jar` to the module path. `--module-path` (or short-form `-p`) is the new flag to work with modules (including unnamed modules as well). `-m` is the the short-form of `--module`. We should add the main class using the pattern `module-name/main-class` with the flag but since we already defined the main class in the `MANIFEST` file, we don't have to do that. Just giving the unnamed module name i.e `modi` (see the previous section for how the `modi` name is given), It resolves the main class from the given `modi.jar` with the `-p` flag. We always need to use the `-m` flag at the end of the command along with its arguments if exists, e.g. `-m jar.name args...`.

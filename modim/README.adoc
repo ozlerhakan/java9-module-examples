@@ -1,0 +1,389 @@
+= ModiM(odule)
+:experimental:
+:toc: macro
+:toc-title: Sections
+
+This is an example project that shows how to compile and run a named module (i.e. an application module). We migrate the project by transforming the codebase to a module.
+
+.the final tree view of the project after completing the sections.
+----
+.
+├── README.adoc
+├── dot           <1>
+│   ├── com.example.modi.dot
+│   └── summary.dot
+├── jar           <2>
+│   └── modi.jar
+├── modimage      <3>
+│
+├── out           <4>
+│   └── production
+│       └── modi
+│           ├── com
+│           │   └── example
+│           │       └── modi
+│           │           ├── entrypoint
+│           │           │   └── Main.class
+│           │           └── query
+│           │               └── Modi.class
+│           └── module-info.class
+└── src
+    ├── com
+    │   └── example
+    │       └── modi
+    │           ├── entrypoint
+    │           │   └── Main.java
+    │           └── query
+    │               └── Modi.java
+    └── module-info.java
+----
+1. When you follow the section 6, you find how to generate a project's dependencies and generate the corresponding dot files.
+2. The `modi.jar` file is generated in the `jar` directory explained in section 4.
+3. Section 9 will help you to generate a compatible Java runtime for Alpine Linux. In this case, we use the `modimage` directory to have a Java image.
+4. After compiling the project using the commands below, the `out` directory will be created and compromises of the compiled code.
+
+toc::[]
+
+=== #{counter:index} Compiling the project
+
+First we start compiling the modi module using the Java Compiler. The compiled modi module will be located in the `out/production/modi` directory.
+
+----
+$ javac -d out/production/modi \
+  src/com/example/modi/entrypoint/Main.java \
+  src/com/example/modi/query/Modi.java \
+  src/module-info.java
+
+$ # or you can use:
+
+$ javac -d out/production/modi --source-path src $(find src -name '*.java')
+----
+
+=== #{counter:index} Running the project
+
+This time, we are in the running stage of the project. We start running the project on the module path because the project has a module description.
+
+----
+$ java -p out/production/modi \ <1>
+  -m com.example.modi/com.example.modi.entrypoint.Main java.base <2>
+:)
+----
+1. we can use either `-p` or `--module-path` to specify the directory of the compiled module path.
+2. we can use either `-m module.name/path.to.main.class args..` or `--module module.name/path.to.main.class args..` to specify the main class in the module. It must be provided at the end on the command.
+
+=== #{counter:index} Running the project with the module resolution output
+
+Here is the command that helps to run the modular application:
+
+----
+$ java \
+  -p out/production/modi/ \
+  --show-module-resolution \ <1>
+  -m com.example.modi/com.example.modi.entrypoint.Main java.base
+root com.example.modi file:///Users/hakan/projects/java9/jigsaw/modim/out/production/modi/
+java.base binds jdk.charsets jrt:/jdk.charsets
+java.base binds jdk.jartool jrt:/jdk.jartool
+java.base binds jdk.javadoc jrt:/jdk.javadoc
+java.base binds jdk.jlink jrt:/jdk.jlink
+java.base binds jdk.jdeps jrt:/jdk.jdeps
+java.base binds jdk.compiler jrt:/jdk.compiler
+java.base binds java.desktop jrt:/java.desktop
+java.base binds jdk.localedata jrt:/jdk.localedata
+java.base binds jdk.zipfs jrt:/jdk.zipfs
+java.base binds java.logging jrt:/java.logging
+java.base binds jdk.security.auth jrt:/jdk.security.auth
+java.base binds java.management jrt:/java.management
+java.base binds java.security.sasl jrt:/java.security.sasl
+java.base binds jdk.deploy jrt:/jdk.deploy
+java.base binds java.naming jrt:/java.naming
+java.base binds java.smartcardio jrt:/java.smartcardio
+java.base binds jdk.security.jgss jrt:/jdk.security.jgss
+java.base binds jdk.crypto.ec jrt:/jdk.crypto.ec
+java.base binds java.security.jgss jrt:/java.security.jgss
+java.base binds java.xml.crypto jrt:/java.xml.crypto
+java.base binds jdk.crypto.cryptoki jrt:/jdk.crypto.cryptoki
+jdk.crypto.cryptoki requires jdk.crypto.ec jrt:/jdk.crypto.ec
+java.xml.crypto requires java.logging jrt:/java.logging
+java.xml.crypto requires java.xml jrt:/java.xml
+java.security.jgss requires java.naming jrt:/java.naming
+jdk.security.jgss requires java.security.sasl jrt:/java.security.sasl
+jdk.security.jgss requires java.logging jrt:/java.logging
+jdk.security.jgss requires java.security.jgss jrt:/java.security.jgss
+java.naming requires java.security.sasl jrt:/java.security.sasl
+jdk.deploy requires java.desktop jrt:/java.desktop
+jdk.deploy requires java.naming jrt:/java.naming
+jdk.deploy requires java.management jrt:/java.management
+jdk.deploy requires java.rmi jrt:/java.rmi
+jdk.deploy requires jdk.unsupported jrt:/jdk.unsupported
+jdk.deploy requires java.scripting jrt:/java.scripting
+jdk.deploy requires java.prefs jrt:/java.prefs
+jdk.deploy requires java.xml jrt:/java.xml
+jdk.deploy requires java.logging jrt:/java.logging
+java.security.sasl requires java.logging jrt:/java.logging
+jdk.security.auth requires java.naming jrt:/java.naming
+jdk.security.auth requires java.security.jgss jrt:/java.security.jgss
+java.desktop requires java.xml jrt:/java.xml
+java.desktop requires java.datatransfer jrt:/java.datatransfer
+java.desktop requires java.prefs jrt:/java.prefs
+jdk.compiler requires java.compiler jrt:/java.compiler
+jdk.jdeps requires java.compiler jrt:/java.compiler
+jdk.jdeps requires jdk.compiler jrt:/jdk.compiler
+jdk.jlink requires jdk.jdeps jrt:/jdk.jdeps
+jdk.jlink requires jdk.internal.opt jrt:/jdk.internal.opt
+jdk.javadoc requires java.xml jrt:/java.xml
+jdk.javadoc requires jdk.compiler jrt:/jdk.compiler
+jdk.javadoc requires java.compiler jrt:/java.compiler
+java.rmi requires java.logging jrt:/java.logging
+java.prefs requires java.xml jrt:/java.xml
+java.naming binds jdk.naming.dns jrt:/jdk.naming.dns
+java.naming binds jdk.naming.rmi jrt:/jdk.naming.rmi
+java.scripting binds jdk.scripting.nashorn jrt:/jdk.scripting.nashorn
+java.compiler binds jdk.compiler jrt:/jdk.compiler
+java.compiler binds jdk.javadoc jrt:/jdk.javadoc
+java.datatransfer binds java.desktop jrt:/java.desktop
+java.management binds jdk.management jrt:/jdk.management
+java.management binds jdk.management.jfr jrt:/jdk.management.jfr
+java.management binds jdk.management.cmm jrt:/jdk.management.cmm
+java.management binds java.management.rmi jrt:/java.management.rmi
+java.management.rmi requires java.rmi jrt:/java.rmi
+java.management.rmi requires java.management jrt:/java.management
+java.management.rmi requires java.naming jrt:/java.naming
+jdk.management.cmm requires jdk.management jrt:/jdk.management
+jdk.management.cmm requires java.management jrt:/java.management
+jdk.management.jfr requires jdk.jfr jrt:/jdk.jfr
+jdk.management.jfr requires jdk.management jrt:/jdk.management
+jdk.management.jfr requires java.management jrt:/java.management
+jdk.management requires java.management jrt:/java.management
+jdk.scripting.nashorn requires java.logging jrt:/java.logging
+jdk.scripting.nashorn requires jdk.dynalink jrt:/jdk.dynalink
+jdk.scripting.nashorn requires java.scripting jrt:/java.scripting
+jdk.naming.rmi requires java.rmi jrt:/java.rmi
+jdk.naming.rmi requires java.naming jrt:/java.naming
+jdk.naming.dns requires java.naming jrt:/java.naming
+jdk.dynalink requires java.logging jrt:/java.logging
+jdk.dynalink binds jdk.scripting.nashorn jrt:/jdk.scripting.nashorn
+:)
+----
+1. Optional, we can inspect the module resolution of the running process during the boot layer initialization.
+
+We can even limit modules being used by the project. Let's see what will happen if we prevent the java modules except `java.base` from being used.
+
+----
+java -p out/production/modi \
+  --show-module-resolution \
+  --limit-modules java.base  \
+  -m com.example.modi/com.example.modi.entrypoint.Main java.base
+root com.example.modi file:///Users/hakan/IdeaProjects/java9/jigsaw/modim/out/production/modi/
+:) <1>
+----
+1. It works well!
+
+=== #{counter:index} Generating a JAR file from the exploded named module
+
+We can generate a corresponding JAR file with the following command:
+
+----
+$ jar -c \   <1>
+  -f jar/modi.jar \ <2>
+  --module-version 1.0.0 <3>
+  -e com.example.modi.entrypoint.Main \ <4>
+  -C  out/production/modi/ . <5>
+----
+1. A new archive file we want to create. Either `--create` or `-c` operation flags can be used.
+2. The new archive file name will be `modi.jar`. The `--file` flag is the equivalent of the `-f` flag. Make sure that the `jar` directory is already created in the current directory.
+3. We can give a version number for each module being created.
+4. We specify the entry point (i.e. a main class). we can do so as well like `--main-class com.example.modi.entrypoint.Main`.
+5. We now change the directory to `out/production/modi` and look at the all compiled class files in order to put them in the jar file. You should see the `modi.jar` in the current directory after running the command.
+
+The directory tree below shows the generated modular jar structure. It's similar to the explode named module. Keep in mind that in order to extract a jar file, use the following command `jar -xvf jarfile.jar`.
+
+----
+jar/modi.jar
+├── META-INF
+│   └── MANIFEST.MF
+├── com
+│   └── example
+│       └── modi
+│           ├── entrypoint
+│           │   └── Main.class
+│           └── query
+│               └── Modi.class
+└── module-info.class
+----
+
+=== #{counter:index} The module descriptor
+
+We are able to inspect the module description of our JAR file. We can find the answers of how many platform modules are required, how many packages the JAR contains and what the main class is.
+
+----
+$ jar -d \ <1>
+  -f jar/modi.jar
+com.example.modi@1.0.0 jar:file:///Users/hakan/projects/java9/jigsaw/modim/jar/modi.jar/!module-info.class <2>
+requires java.base mandated <3>
+contains com.example.modi.entrypoint <4>
+contains com.example.modi.query
+main-class com.example.modi.entrypoint.Main <5>
+----
+1. `-d` is the sort-form of the `--describe-module` flag. This is the main operation flag so we cannot use both `-c` and `-d` at the same time.
+2. the module name with the given version number display
+3. the modi module needs `java.base` to run without error.
+4. 2 packages inside the modi project exist. In other words, the modi project consists of `com.example.modi.entrypoint` and  `com.example.modi.query` packages.
+5. The main class, `com.example.modi.entrypoint.Main`, runs when we use the module.
+
+
+=== #{counter:index} Jdeps Bytecode Analysis
+
+Another new tool coming with Java 9 is Jdeps. Jdeps is a very useful tool to analyse your project dependencies. It's easy to resolve compile-time dependencies rather than looking each `import` statement at the project level. To do so, Jdeps is interested in compiled code instead source code. It performs bytecode analysis to make this possible. The command below shows a summary of the dependencies of the modi project.
+
+----
+$ jdeps -summary -recursive out/production/modi <1>
+com.example.modi -> java.base
+----
+1. Jdeps recursively performs a deep look at the project's bytecode and summarises the result. Since we don't have a 3rd party dependency except the Java module itself (off course), we only see one related platform module which is the sole `java.base`.
+
+Additionally, Jdeps can writes the result of the summary into `dot` files:
+
+----
+$ jdeps --module-path out/production/modi \
+-recursive -dotoutput dot/ \ <1>
+-m com.example.modi <2>
+----
+1. Add dot files into the `dot` directory.
+2. `com.example.modi` is the root module for recursive analysis
+
+If you want the comprehensive details of the result, you can leave the `-summart` flag out:
+
+----
+$ jdeps -recursive out/production/modi
+com.example.modi
+ [file:///Users/hakan/projects/jigsaw/modim/out/production/modi/]
+   requires mandated java.base (@9)
+com.example.modi -> java.base
+   com.example.modi.entrypoint                        -> com.example.modi.query                             com.example.modi
+   com.example.modi.entrypoint                        -> java.io                                            java.base
+   com.example.modi.entrypoint                        -> java.lang                                          java.base
+   com.example.modi.query                             -> java.lang                                          java.base
+   com.example.modi.query                             -> java.lang.invoke                                   java.base
+   com.example.modi.query                             -> java.util                                          java.base
+   com.example.modi.query                             -> java.util.function                                 java.base
+   com.example.modi.query                             -> java.util.stream                                   java.base
+----
+
+=== #{counter:index} Running the modular JAR
+
+You can run the modular jar file on the module path with giving the main class as below:
+
+----
+$ java --module-path jar --module com.example.modi java.base <1>
+:)
+----
+1. `java -p jar -m com.example.modi java.base` is the same of the command.
+
+
+=== #{counter:index} Custom Java runtime image
+
+As of Java 9, The new tool JLink is enable us to make our own custom runtime images to launching our modular applications. In other words, making a project modular, we are able to create a self-contained zero-dependency runtime image of the module using the `jlink` command. Here is the sample command to make an runtime image. Let's take a look at deeply. By the way my current platform is macOS. To make an shareable image using docker we need to use different JDK 9 distribution (See Section 9).
+
+----
+$ jlink \
+--launcher modilula=com.example.modi/com.example.modi.entrypoint.Main \ <1>
+--output modimage/ \  <2>
+--verbose \ <3>
+--no-header-files --no-man-pages --compress 2 \ <4> reducing the image size!
+--module-path jar:$JAVA_HOME/jmods \ <5>
+--add-modules com.example.modi   <6>
+com.example.modi file:///Users/hakan/projects/java9/jigsaw/modim/jar/modi.jar
+java.base file:///Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/jmods/java.base.jmod
+
+Providers:
+  java.base provides java.nio.file.spi.FileSystemProvider used by java.base
+----
+1. `jlink` gives an executable for a project to run it directly. In this case, the executor name (or luncher name) is `madidula`. We refer to the main class of the `modi` module.
+2. The path where the modi image exists.
+3. It gives more details about the process.
+4. the 3 flags are used to minimize the size of the runtime image. A zip level compression is applied without man pages and header files.
+5. `$JAVA_HOME` should refet to the JDK directory. `$JAVA_HOME/jmods` points to the platform and boot modules of JDK 9. Each module's extension ends with `.jmod`. This is a new file format for packaging the modules. You can think of a `jmod` file as a regular `jar` file but they contain module specific details as well. the module path consists of JDK modules and the application module.
+6. We only specify the `modi` module whose module name is `com.example.modi` for the image. The image will contain the dependencies of the modi itself.
+
+The generated image file structure is as follows:
+
+----
+modimage/ <1>
+├── bin/
+│   ├── java
+│   ├── keytool
+│   └── modilula    <1>
+├── conf/
+│  
+├── legal/
+│ 
+├── lib/
+│  
+└── release
+----
+1. The Modim Java runtime is only 24mb!
+2. This command is our executable script launching the `com.example.modi` module.
+
+It should run successfully, If we run the `modidula` command.
+
+----
+$ ./modimage/bin/modilula java.base
+:) <1>
+----
+1. yay!
+
+In the bundled Java runtime image, a Java command is also available. Let's list the modules the `modi` module requires to run the application.
+
+----
+$ ./modimage/bin/java --list-modules <1>
+com.example.modi@1.0.0
+java.base@9
+----
+1. Only the `modi` module itself and the `java.base` module are applicable in the Java runtime.
+
+=== #{counter:index} Dockerize the application module
+
+To make this application Dockerize, we need to use JDK 9 Early-Access Builds for Alpine Linux. We need an image first to have a working JDK based on an Alpine image.
+
+We use `Dockerfile.jdk9-alpine` taken from the https://github.com/arun-gupta/labs/blob/f6ebeb7101832e16b6802af6d47606bb73463d75/developer-tools/java/chapters/ch03-build-image-java-9.adoc#create-a-docker-image-using-jdk-9[docker-lab] repository to have JDK 9 running on Alpine 3.6. What is important to know that, before building the dockerfile, we must download the `tar` file from http://jdk.java.net/9/ea. The same steps are applied for obtaining the image through the docker run command.
+
+----
+$ # Build the Dockerfile.jdk9-alpine
+$ docker build -t alpine:jdk-9-musl -f Dockerfile.jdk9-alpine .
+
+$ docker images
+  REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
+  alpine                    jdk-9-musl          cd4ea7628c9b        15 minutes ago      356MB
+$
+$ docker run -v $(pwd):/modi/ -w /modi --rm alpine:jdk-9-musl jlink \
+  --launcher modilula=com.example.modi/com.example.modi.entrypoint.Main \
+  --output modimage/ \
+  --verbose \
+  --no-header-files --no-man-pages --compress 2 \
+  --module-path jar:/opt/jdk-9/jmods \
+  --add-modules com.example.modi
+----
+
+Now that we have an runtime image, we can make a Docker image based on Alpine 3.6.
+
+----
+$ docker build -t modilula --no-cache . <1>
+$ docker images
+  REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
+  modilula                  latest              289ab9865287        3 seconds ago       37.3MB <2>
+
+$ docker run --rm modilula:latest java.base
+:) <3>
+----
+1. Docker looks at the `Dockerfile` and build the modidula image.
+2. Including the alpine base image our application is just 37mb!
+3. Voila!
+
+Now, you are free to ship the image to a registry and make everyone use the application like so:
+
+----
+$ docker tag modilula:latest ozlerhakan/modilula:latest
+$ docker push ozlerhakan/modilula:latest
+$ docker run --rm ozlerhakan/modilula:latest java.base
+:)
+----

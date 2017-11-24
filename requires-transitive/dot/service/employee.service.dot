@@ -1,0 +1,13 @@
+digraph "employee.service" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/requires-transitive/jar/employee.service-1.0.jar
+   "employee.service.api"                             -> "employee.model (employee.model)";
+   "employee.service.api"                             -> "java.lang (java.base)";
+   "employee.service.api"                             -> "java.util (java.base)";
+   "employee.service.impl"                            -> "employee.model (employee.model)";
+   "employee.service.impl"                            -> "employee.service.api (employee.service)";
+   "employee.service.impl"                            -> "java.lang (java.base)";
+   "employee.service.impl"                            -> "java.lang.invoke (java.base)";
+   "employee.service.impl"                            -> "java.util (java.base)";
+   "employee.service.impl"                            -> "java.util.function (java.base)";
+   "employee.service.impl"                            -> "java.util.stream (java.base)";
+}

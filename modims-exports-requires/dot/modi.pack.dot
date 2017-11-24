@@ -1,0 +1,9 @@
+digraph "modi.pack" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/modims/out/modi.pack
+   "com.pack.impl"                                    -> "com.modi.api.query (modi.api)";
+   "com.pack.impl"                                    -> "java.lang (java.base)";
+   "com.pack.impl"                                    -> "java.lang.invoke (java.base)";
+   "com.pack.impl"                                    -> "java.util (java.base)";
+   "com.pack.impl"                                    -> "java.util.function (java.base)";
+   "com.pack.impl"                                    -> "java.util.stream (java.base)";
+}

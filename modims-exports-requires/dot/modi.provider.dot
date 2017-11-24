@@ -1,0 +1,10 @@
+digraph "modi.provider" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/modims/out/modi.provider
+   "com.modi.provider.query"                          -> "com.mod.impl (modi.mod)";
+   "com.modi.provider.query"                          -> "com.modi.api.query (modi.api)";
+   "com.modi.provider.query"                          -> "com.modi.provider.util (modi.provider)";
+   "com.modi.provider.query"                          -> "com.pack.impl (modi.pack)";
+   "com.modi.provider.query"                          -> "java.lang (java.base)";
+   "com.modi.provider.query"                          -> "java.util (java.base)";
+   "com.modi.provider.util"                           -> "java.lang (java.base)";
+}

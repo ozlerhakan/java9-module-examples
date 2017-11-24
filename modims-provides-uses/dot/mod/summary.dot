@@ -1,0 +1,5 @@
+digraph "summary" {
+  "modi.api"                                         -> "java.base (java.base)";
+  "modi.mod"                                         -> "java.base (java.base)";
+  "modi.mod"                                         -> "modi.api";
+}
