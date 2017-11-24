@@ -13,7 +13,6 @@
         <module>employee.model</module>
         <module>employee.service</module>
         <module>employee.entrypoint</module>
-        <module>employee.jlink</module>
     </modules>
 
     <build>
