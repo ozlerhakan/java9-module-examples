@@ -22,6 +22,10 @@ Demonstrates how to compile and run multiple application modules using the `prov
 
 Shows the way of handling transitive dependencies on a module system.
 
+==== Javafx
+
+Show how to solve the issues while converting the project into an application javafx module. 
+
 === Todo
 
 * a spring project with mongodb integration
