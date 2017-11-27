@@ -1,0 +1,21 @@
+digraph "com.example.javafx" {
+    // Path: /Users/hakan/IdeaProjects/jigsaw/javafx/out
+   "com.example.javafx"                               -> "com.example.javafx (com.example.javafx)";
+   "com.example.javafx"                               -> "java.io (java.base)";
+   "com.example.javafx"                               -> "java.lang (java.base)";
+   "com.example.javafx"                               -> "java.lang.invoke (java.base)";
+   "com.example.javafx"                               -> "java.util (java.base)";
+   "com.example.javafx"                               -> "java.util.function (java.base)";
+   "com.example.javafx"                               -> "java.util.stream (java.base)";
+   "com.example.javafx"                               -> "javafx.application (javafx.graphics)";
+   "com.example.javafx"                               -> "javafx.collections (javafx.base)";
+   "com.example.javafx"                               -> "javafx.event (javafx.base)";
+   "com.example.javafx"                               -> "javafx.scene (javafx.graphics)";
+   "com.example.javafx"                               -> "javafx.scene.control (javafx.controls)";
+   "com.example.javafx"                               -> "javafx.scene.input (javafx.graphics)";
+   "com.example.javafx"                               -> "javafx.scene.layout (javafx.graphics)";
+   "com.example.javafx"                               -> "javafx.scene.paint (javafx.graphics)";
+   "com.example.javafx"                               -> "javafx.scene.shape (javafx.graphics)";
+   "com.example.javafx"                               -> "javafx.scene.text (javafx.graphics)";
+   "com.example.javafx"                               -> "javafx.stage (javafx.graphics)";
+}

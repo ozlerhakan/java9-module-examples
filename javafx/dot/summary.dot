@@ -1,0 +1,6 @@
+digraph "summary" {
+  "com.example.javafx"                               -> "java.base (java.base)";
+  "com.example.javafx"                               -> "javafx.base (javafx.base)";
+  "com.example.javafx"                               -> "javafx.controls (javafx.controls)";
+  "com.example.javafx"                               -> "javafx.graphics (javafx.graphics)";
+}
