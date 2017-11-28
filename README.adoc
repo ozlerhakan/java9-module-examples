@@ -24,7 +24,7 @@ Shows the way of handling transitive dependencies on a module system.
 
 === Javafx
 
-Show how to solve the issues while converting the project into an application javafx module. 
+Shows how to solve the issues while converting a javafx project into an application module. 
 
 === Todo
 
