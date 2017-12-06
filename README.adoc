@@ -26,6 +26,10 @@ Shows the way of handling transitive dependencies on a module system.
 
 Shows how to solve the issues while converting a javafx project into an application module. 
 
+=== Java 9 Cheat Sheet
+
+image:images/RebelLabs-Java-9-modules-cheat-sheet.png[link=https://zeroturnaround.com/rebellabs/java-9-modules-cheat-sheet/]
+
 === Todo
 
 * a spring project with mongodb integration
@@ -44,3 +48,4 @@ Shows how to solve the issues while converting a javafx project into an applicat
 * https://stackoverflow.com/questions/46502453/[Readability Recap]
 * https://www.voxxed.com/2016/11/problem-modules-reflective-access/[How do you solve a problem like Java 9 modules and reflective access?]
 * https://labs.consol.de/development/2017/02/13/getting-started-with-java9-modules.html[Getting Started with Java 9 Modules]
+* https://docs.oracle.com/javase/9/migrate/toc.htm[JDK 9 Migration Guide]
