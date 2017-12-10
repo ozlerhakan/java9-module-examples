@@ -35,6 +35,10 @@ image:images/RebelLabs-Java-9-modules-cheat-sheet.png[link=https://zeroturnaroun
 * a spring project with mongodb integration
 * a reflection and deep reflection project
 
+=== OS Projects
+
+* https://github.com/jodastephen/jpms-module-names[JPMS Module Names]
+
 === Resources
 
 * https://blog.codefx.org/java/[Nicolai Parlog Blog]
