@@ -28,7 +28,7 @@ Shows how to solve the issues while converting a javafx project into an applicat
 
 === Reflect
 
-Demostrates how to use the `opens` clause when using the reflection API in an application modules.
+Demostrates how to use the `opens` clause when using the reflection API in an application module.
 
 === Java Platform Module Cheat Sheet
 
