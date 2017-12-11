@@ -26,6 +26,10 @@ Shows the way of handling transitive dependencies on a module system.
 
 Shows how to solve the issues while converting a javafx project into an application module. 
 
+=== Reflect
+
+Demostrates how to use the `opens` clause when using the reflection API in an application modules.
+
 === Java Platform Module Cheat Sheet
 
 image:images/RebelLabs-Java-9-modules-cheat-sheet.png[link=https://zeroturnaround.com/rebellabs/java-9-modules-cheat-sheet/]
@@ -33,7 +37,6 @@ image:images/RebelLabs-Java-9-modules-cheat-sheet.png[link=https://zeroturnaroun
 === Todo
 
 * a spring project with mongodb integration
-* a reflection and deep reflection project
 
 === OS Projects
 

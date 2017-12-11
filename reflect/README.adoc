@@ -1,0 +1,100 @@
+= reflect
+
+In this example, we examine the module descriptions of the three modules, `reflect.deep`, `reflect.normal`, and `reflect.entrypoint`, for understanding the walkthrough of how to use deep reflection in the Java module system. For the sake of clarity, we need to know what deep reflection is at first. Deep reflection is the way we can manipulate nonpublic members of classes at runtime using the Java Reflection API. Applying for deep reflection prior to Java 9 doesn't require anything to do in advance. However, you need to adjust your modular descriptor as of Java 9, if other modules are willing to access the private members of exposed types at runtime. As Java 9 provides strong encapsulation, deep reflection is no exception. In order words, we must open an entire module or specific packages of the module in advance in which deep reflection is the case for other (automatic, application or platform) modules.
+
+Let's take a look at the `reflect.normal` and `reflect.deep` modules respectively. The two modules contain POJO classes. The following `Machine` class located in the `reflect.normal` module, consists of two public members:
+
+----
+package com.reflect.normal;
+
+public class Machine {
+
+    public String name;
+
+    public boolean start() {
+        return true;
+    }
+
+}
+----
+
+In the `reflect.entrypoint` module, we want to react this class and manage its public members at runtime. In order to do so, we only need to export the `com.reflect.normal` package so that other modules like `reflect.entrypoint` can manipulate the public members of the `Machine` class.
+
+.module-info.java
+----
+module com.reflect.normal {
+
+    exports com.reflect.normal;
+}
+----
+
+NOTE: Keep in mind that module names must be the same as the name of the root package. This is a recommended way when Java Module Platform is taken into account. If the module name is the name of the root package of your module, we deduce the package and module names are unique in the Java namespace. In our case, the module name, `com.reflect.normal`, is the same as the root package name.
+
+Notice that we only use the `exports` clauses in the module descriptor. Not only does the `exports` clause enable to react the exported public types during compilation, but It also enables to manage the public members of the types at runtime. What is important to note that we do only access the public members of types with the `exports` clauses when consuming the reflection api. In no way do we read the (private, protected, default) members of a class with this approach.
+
+Now that we are able to read the public types of the module `reflect.ormal`, we can simply apply for the reflection API to modify their public members:
+
+----
+Field field = Machine.class.getField("name");
+Machine newInstance = Machine.class.getDeclaredConstructor().newInstance();
+field.set(newInstance, "Machine 9876");
+
+String value = (String) field.get(newInstance);
+System.out.println(value);
+
+Method declaredMethod = Machine.class.getDeclaredMethod("start");
+boolean result = (boolean) declaredMethod.invoke(newInstance);
+
+System.out.println(result);
+----
+
+Let's now focus on another module called `reflect.deep`. This module constains only one public class consisting of two private members. Provided that we export the corresponding package to other modules, we end up with the following error when using reflection API.
+
+----
+Exception in thread "main" java.lang.IllegalAccessException: class com.reflect.entrypoint.Main (in module com.ref.entrypoint) cannot access a member of class com.reflect.deep.Gear (in module com.reflect.deep) with modifiers "private"
+----
+
+Oh!, It looks like private members are not reachable from the outside when deep reflection is performed. What's more, we noticeably have seen that the `exports` clause couldn't access non-public members. To be used deep reflection we need to apply for the `opens` clauses. Simply put, we ensure that the class and its non-public members are accessible at runtime but not at compile time.
+
+.the module descriptor of the `reflect.deep` module
+----
+module com.reflect.deep {
+
+    opens com.reflect.deep;
+
+}
+----
+
+As the mentioned package is reachable only at runtime, the following snippet can work on other modules based on the public exported types.
+
+----
+Field model = Class.forName("com.reflect.deep.Gear").getDeclaredField("model");
+Object newInstanceOfGear = Class.forName("com.reflect.deep.Gear").getDeclaredConstructor().newInstance();
+
+model.trySetAccessible();
+model.set(newInstanceOfGear, 2017);
+System.out.println(model.get(newInstanceOfGear));
+----
+
+Next to this, there are a few steps as well. For example, we can use both the `exports` and `opens` clauses over a package for public types at the same time. This approach comes with twofold. We access the exported types at compile time, likewise we are ready to use deep reflection at run time. Another approach is to open all the packages of a module for deep reflection:
+
+----
+open module com.reflect.deep {
+}
+----
+
+Since the later form looks like a precise and clear way when dealing with deep reflection,
+be aware that we open all the packages to be used for deep reflection at runtime by other modules. In addition, we break strong encapsulation when opening a package at runtime. So you might think this approach during migration only.
+
+You can use the following steps to compile and run the example or import the project into your favorite IDE and run the main class of the `reflect.entrypoint` module.
+
+----
+$ javac -d out/reflect.normal/ --source-path reflect.normal/src/  $(find reflect.normal/src -name '*.java')
+$ javac -d out/reflect.deep/ --source-path reflect.deep/src/  $(find reflect.deep/src/ -name '*.java')
+$ javac -d out/reflect.entrypoint --module-path out/reflect.normal:out/reflect.deep --source-path reflect.entrypoint/src/  $(find reflect.entrypoint/src/ -name '*.java')
+$ # run
+$ java -p out/ -m com.reflect.entrypoint/com.reflect.entrypoint.Main
+Machine 9876
+true
+2017
+----
