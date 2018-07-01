@@ -34,10 +34,6 @@ Demostrates how to use the `opens` clause when using the reflection API in an ap
 
 image:images/RebelLabs-Java-9-modules-cheat-sheet.png[link=https://zeroturnaround.com/rebellabs/java-9-modules-cheat-sheet/]
 
-=== Todo
-
-* a spring project with mongodb integration
-
 === OS Projects
 
 * https://github.com/jodastephen/jpms-module-names[JPMS Module Names]
